@@ -1,1 +1,860 @@
+---
+layout: none
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LLM Alignment Tutorial — Alignment of Large Language Models with Human Preferences and Values</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Tutorial on Alignment of Large Language Models with Human Preferences and Values — Wednesday 26 November, 2–5pm AEDT (UTC+11), PNR Learning Studio 310."
+  />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --light: #f4f5f7;
+      --dark: #0f172a;
+      --accent: #2563eb;
+      --accent-red: #C1272D;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ===== Navbar ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand span.main {
+      font-size: 1rem;
+    }
+    .brand span.small {
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+    nav a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 1.25rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+    .hero-left h1 {
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      margin-bottom: 0.75rem;
+      line-height: 1.1;
+    }
+    .hero-left p {
+      color: var(--muted);
+      max-width: 35rem;
+      font-size: 0.95rem;
+    }
+    .hero-meta {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .hero-meta p {
+      margin: 0.15rem 0;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(37,99,235,0.08);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .hero-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+    .btn.secondary {
+      background: #fff;
+      border: 1px solid #d1d5db;
+      color: var(--text);
+    }
+
+    .hero-card {
+      background: var(--light);
+      border: 1px solid #e5e7eb;
+      border-radius: 1.2rem;
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    .hero-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+    .hero-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .detail-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 0.15rem;
+      color: var(--text);
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    .presenter-list {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    /* ===== Sections ===== */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 0;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-title small {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.25rem 1.1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .card ul {
+      padding-left: 1.1rem;
+      margin: 0.4rem 0 0;
+    }
+    .card li {
+      margin-bottom: 0.25rem;
+    }
+
+    /* ===== Outline ===== */
+    .outline-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .outline-item {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0.6rem 0;
+      display: grid;
+      grid-template-columns: 0.8fr 2fr;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+    .outline-item:last-child { border-bottom: none; }
+    .outline-label {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .outline-label span.num {
+      display: inline-block;
+      margin-right: 0.45rem;
+      min-width: 1.4rem;
+      text-align: center;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      font-size: 0.75rem;
+      color: var(--accent-red);
+    }
+    .outline-desc {
+      color: var(--muted);
+    }
+
+    /* ===== Contact / footer ===== */
+    footer {
+      margin-top: 3rem;
+      background: #0f172a;
+      color: rgba(255,255,255,0.9);
+      padding: 2rem 1.25rem 2.5rem;
+    }
+    footer .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      nav {
+        display: none;
+      }
+      header {
+        position: static;
+      }
+      .outline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <!-- ===== Navbar ===== -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <span>SocialNLP Research Lab</span><br>
+        <span class="small">
+          School of Computing, Macquarie University, Sydney, Australia — 
+          part of the 
+          <a href="https://socialnlpresearchlab.github.io/" target="_blank"
+             style="color:#C1272D; text-decoration:none; font-weight:600;">
+            SocialNLP Lab
+          </a>
+        </span>
+      </div>
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#abstract">Abstract</a>
+        <a href="#outline">Outline</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ===== Hero (Tutorial overview) ===== -->
+<section id="overview" style="max-width:1100px; margin:2.5rem auto 1.5rem; padding:0 1.25rem;">
+  <div class="hero-card"
+       style="background:#ffffff; border-radius:18px; padding:1.4rem 1.6rem;
+              box-shadow:0 3px 8px rgba(0,0,0,0.08); border-left:5px solid #C1272D;">
+    
+    <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:flex-start;">
+<!-- Left: title + description -->
+<div style="flex:1 1 260px;">
+
+  <div class="tag"
+       style="display:inline-block; background:rgba(37,99,235,0.08); color:#2563eb;
+              border-radius:999px; padding:0.18rem 0.75rem; font-size:0.7rem;
+              text-transform:uppercase; letter-spacing:0.04em; margin-bottom:0.7rem;">
+    Tutorial · LLM Alignment
+  </div>
+
+  <h1 style="margin:0 0 0.6rem; font-size:clamp(1.7rem, 3vw, 2.2rem); line-height:1.15;
+             color:#111827; font-family:'Poppins',system-ui,sans-serif;">
+    Alignment of Large Language Models with Human Preferences and Values
+  </h1>
+
+  <p style="color:#5b3a3a;
+            font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+            font-size:0.92rem; max-width:40rem;">
+    A focused tutorial introducing the foundations of LLM alignment and providing a
+    conceptual and practical understanding of values, safety, reasoning, and pluralism.
+    Through intuitive explanations, worked examples, and case studies, we explore how to
+    reason about alignment goals and critically evaluate existing methods.
+  </p>
+
+</div>
+
+
+      <!-- Right: meta info -->
+      <!-- Right: meta info -->
+<div style="flex:0 0 240px;">
+  <ul style="list-style:none; padding:0; margin:0; color:#4b1d26;
+             font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+             font-size:0.9rem;">
+
+    <li style="margin-bottom:0.4rem;">
+      <strong style="color:#C1272D; font-family:'Nunito Sans',sans-serif;">Date:</strong>
+      Wednesday 26 November, 2025.
+    </li>
+
+    <li style="margin-bottom:0.4rem;">
+      <strong style="color:#C1272D; font-family:'Nunito Sans',sans-serif;">Time:</strong>
+      2:00–5:00&nbsp;pm &middot; AEDT (UTC+11).
+    </li>
+
+    <li style="margin-bottom:0.4rem;">
+      <strong style="color:#C1272D; font-family:'Nunito Sans',sans-serif;">Location:</strong>
+      PNR Learning Studio 310, University of Sydney, Sydney, Australia.
+    </li>
+
+    <li style="margin-bottom:0.2rem;">
+      <strong style="color:#C1272D; font-family:'Nunito Sans',sans-serif;">Presenters:</strong>
+      Usman Naseem, Gautam Siddharth Kashyap, Kaixuan Ren, Yiran Zhang,
+      Utsav Maskey, Juan (Ada) Ren, Afrozah Nadeem.
+    </li>
+
+  </ul>
+</div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="hero-buttons"
+         style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.8rem;">
+      <a href="#"
+         class="btn"
+         style="background:#2563eb; color:#fff; padding:0.55rem 1.1rem; border-radius:999px;
+                border:none; font-weight:600; font-size:0.9rem; text-decoration:none;">
+        ⬇ Download Slides
+      </a>
+      <a href="#outline"
+         class="btn secondary"
+         style="background:#ffffff; border:1px solid #d1d5db; color:#111827;
+                padding:0.55rem 1.1rem; border-radius:999px; font-weight:600;
+                font-size:0.9rem; text-decoration:none;">
+        ⬇ Download Papers
+      </a>
+    </div>
+  </div>
+</section>
+
+
+    <!-- ===== Tutorial Presenters ===== -->
+<section id="presenters" style="background:#fffafc;">
+  <h2 class="section-title" 
+      style="text-align:center; font-size:1.9rem; color:#C1272D; 
+             font-family:'Poppins',sans-serif; margin-bottom:1.5rem;">
+    Tutorial Presenters
+  </h2>
+
+  <style>
+    .presenter-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+
+    .presenter {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #fff;
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .presenter:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(193,39,45,0.15);
+    }
+
+    .presenter-pic {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #f8d7da;
+      flex-shrink: 0;
+      border: 2px solid #C1272D;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .presenter-info {
+      flex: 1;
+    }
+
+    .presenter-role {
+      color: #C1272D;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .presenter-info h4 {
+      margin: 0 0 0.1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #2b2b2b;
+      font-size: 1.05rem;
+    }
+
+    .presenter-info p {
+      color: #5b3a3a;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+  </style>
+
+  <div class="presenter-list">
+
+    <!-- ===== Usman ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('U1.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">Faculty Lead</div>
+        <h4>Dr. Usman Naseem</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Gautam ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('G.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">PhD Student</div>
+        <h4>Gautam Siddharth Kashyap</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Kaixuan ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('V.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">PhD Student</div>
+        <h4>Kaixuan Ren (Victor)</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Yiran ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('Y.jpeg');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">MRes Student</div>
+        <h4>Yiran Zhang (Grant)</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Utsav ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('UM.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">MRes Student</div>
+        <h4>Utsav Maskey</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Juan ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('A.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">MRes Student</div>
+        <h4>Juan (Ada) Ren</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+    <!-- ===== Afrozah ===== -->
+    <div class="presenter">
+      <div class="presenter-pic" style="background-image:url('AN.png');"></div>
+      <div class="presenter-info">
+        <div class="presenter-role">MRes Student</div>
+        <h4>Afrozah Nadeem</h4>
+        <p>Macquarie University</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- ===== Abstract & Prerequisites (Two Boxes) ===== -->
+<section id="abstract" style="max-width:1100px; margin:2.5rem auto 1.5rem; padding:0 1.25rem;">
+
+  <h2 style="font-size:1.7rem; font-family:'Poppins',sans-serif; color:#C1272D; margin-bottom:1.2rem;">
+    Tutorial Overview
+    <br>
+  </h2>
+
+  <div style="display:flex; flex-wrap:wrap; gap:1.5rem;">
+
+    <!-- ===== Left Box: Abstract ===== -->
+    <div class="hero-card"
+         style="flex:1 1 420px; background:#ffffff; border-radius:18px; padding:1.4rem 1.6rem;
+                box-shadow:0 3px 8px rgba(0,0,0,0.08); border-left:5px solid #C1272D;">
+
+      <h3 style="color:#111827; margin-bottom:0.6rem; font-family:'Poppins',sans-serif;">
+        Abstract
+      </h3>
+
+      <p style="color:#5b3a3a;
+                font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+                font-size:0.95rem; line-height:1.6;">
+        Large Language Models (LLMs) have demonstrated remarkable capabilities, yet their
+        reliability and alignment with human expectations remain unresolved challenges.
+        This tutorial introduces the foundations of alignment and provides participants with
+        a conceptual and practical understanding of the field. We cover how values, safety,
+        reasoning, and pluralism shape alignment objectives, using real-world examples and
+        case studies. The goal is to help attendees reason about alignment goals, understand
+        the behaviour of existing methods, and critically evaluate their strengths and
+        limitations.
+      </p>
+    </div>
+
+    <!-- ===== Right Box: Pre-Requisites ===== -->
+    <div class="hero-card"
+         style="flex:1 1 420px; background:#ffffff; border-radius:18px; padding:1.4rem 1.6rem;
+                box-shadow:0 3px 8px rgba(0,0,0,0.08); border-left:5px solid #C1272D;">
+
+      <h3 style="color:#111827; margin-bottom:0.6rem; font-family:'Poppins',sans-serif;">
+        Pre-requisites & Audience
+      </h3>
+
+      <p style="color:#5b3a3a;
+                font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+                font-size:0.95rem; line-height:1.6;">
+        The tutorial is accessible without prior alignment experience, though familiarity with
+        core ML and NLP concepts is helpful. No coding is required — all examples are presented
+        through visual illustrations and guided reasoning.
+      </p>
+
+      <ul style="color:#4b1d26;
+                 font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+                 font-size:0.9rem; padding-left:1.2rem; margin-top:0.4rem; line-height:1.55;">
+        <li>Basic ML/NLP familiarity helpful but not mandatory.</li>
+        <li>No coding needed — content taught via slides and diagrams.</li>
+        <li>Ideal for students, researchers, and practitioners working on
+            trustworthy and safety-focused LLM applications.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+  <!-- ===== Outline (Styled Hero-Card) ===== -->
+<section id="outline" style="max-width:1100px; margin:2.5rem auto 1.5rem; padding:0 1.25rem;">
+
+  <h2 style="font-size:1.7rem; font-family:'Poppins',sans-serif; color:#C1272D; margin-bottom:1.2rem;">
+    Tutorial Outline
+    <br>
+  </h2>
+
+  <div class="hero-card"
+       style="background:#ffffff; border-radius:18px; padding:1.6rem 1.8rem;
+              box-shadow:0 3px 8px rgba(0,0,0,0.08); border-left:5px solid #C1272D;">
+
+    <ol style="list-style:none; margin:0; padding:0; counter-reset:outline;">
+
+      <!-- Item 1 -->
+      <li style="display:flex; gap:1rem; margin-bottom:1.2rem; counter-increment:outline;">
+        <div style="font-family:'Poppins',sans-serif; font-size:1.1rem; color:#C1272D; font-weight:600;">
+          <span style="background:#fde2e4; color:#C1272D; padding:0.25rem 0.65rem; border-radius:8px;">
+            <span style="font-size:0.9rem;">#</span> <span style="font-size:1rem;">1</span>
+          </span>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:1.05rem; color:#111827; font-family:'Poppins',sans-serif; margin-bottom:0.25rem;">
+            Welcome and Overview
+          </div>
+          <p style="font-size:0.93rem; color:#5b3a3a;
+                    font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+                    line-height:1.55;">
+            Setting the stage: why alignment matters for LLMs, tutorial goals, and a quick tour
+            of the concepts we will cover across values, safety, reasoning, and pluralism.
+          </p>
+        </div>
+      </li>
+
+      <!-- Item 2 -->
+      <li style="display:flex; gap:1rem; margin-bottom:1.2rem; counter-increment:outline;">
+  <div style="font-family:'Poppins',sans-serif; font-size:1.1rem; color:#C1272D; font-weight:600;">
+    <span style="background:#fde2e4; color:#C1272D; padding:0.25rem 0.65rem; border-radius:8px;">
+      <span style="font-size:0.9rem;">#</span> <span style="font-size:1rem;">2</span>
+    </span>
+  </div>
+  <div style="flex:1;">
+    <div style="font-weight:600; font-size:1.05rem; color:#111827; font-family:'Poppins',sans-serif; margin-bottom:0.25rem;">
+      Alignment via Human Preferences and Values
+    </div>
+    <p style="font-size:0.93rem; color:#5b3a3a;
+              font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+              line-height:1.55;">
+      Human preference modelling, value alignment, and alignment objectives.
+      We discuss how reward models, instruction tuning, and role prompts encode human
+      preferences—and where these approaches break down.
+    </p>
+  </div>
+</li>
+
+<!-- Item 3 -->
+<li style="display:flex; gap:1rem; margin-bottom:1.2rem; counter-increment:outline;">
+  <div style="font-family:'Poppins',sans-serif; font-size:1.1rem; color:#C1272D; font-weight:600;">
+    <span style="background:#fde2e4; color:#C1272D; padding:0.25rem 0.65rem; border-radius:8px;">
+      <span style="font-size:0.9rem;">#</span> <span style="font-size:1rem;">3</span>
+    </span>
+  </div>
+  <div style="flex:1;">
+    <div style="font-weight:600; font-size:1.05rem; color:#111827; font-family:'Poppins',sans-serif; margin-bottom:0.25rem;">
+      Safety Alignment
+    </div>
+    <p style="font-size:0.93rem; color:#5b3a3a;
+              font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+              line-height:1.55;">
+      Safety taxonomies and concrete failure modes (harmful content, hallucinations,
+      misuse). Practical safety-alignment methods and trade-offs between helpfulness and
+      harm reduction.
+    </p>
+  </div>
+</li>
+
+<!-- Item 4 -->
+<li style="display:flex; gap:1rem; margin-bottom:1.2rem; counter-increment:outline;">
+  <div style="font-family:'Poppins',sans-serif; font-size:1.1rem; color:#C1272D; font-weight:600;">
+    <span style="background:#fde2e4; color:#C1272D; padding:0.25rem 0.65rem; border-radius:8px;">
+      <span style="font-size:0.9rem;">#</span> <span style="font-size:1rem;">4</span>
+    </span>
+  </div>
+  <div style="flex:1;">
+    <div style="font-weight:600; font-size:1.05rem; color:#111827; font-family:'Poppins',sans-serif; margin-bottom:0.25rem;">
+      Cultural and Pluralistic Alignment
+    </div>
+    <p style="font-size:0.93rem; color:#5b3a3a;
+              font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+              line-height:1.55;">
+      How to align LLMs for diverse users and contexts. Cultural norms, pluralistic value
+      sets, role-driven prompts, and cases where a single global alignment target is
+      insufficient.
+    </p>
+  </div>
+</li>
+
+<!-- Item 5 -->
+<li style="display:flex; gap:1rem; counter-increment:outline;">
+  <div style="font-family:'Poppins',sans-serif; font-size:1.1rem; color:#C1272D; font-weight:600;">
+    <span style="background:#fde2e4; color:#C1272D; padding:0.25rem 0.65rem; border-radius:8px;">
+      <span style="font-size:0.9rem;">#</span> <span style="font-size:1rem;">5</span>
+    </span>
+  </div>
+  <div style="flex:1;">
+    <div style="font-weight:600; font-size:1.05rem; color:#111827; font-family:'Poppins',sans-serif; margin-bottom:0.25rem;">
+      Key Takeaways and Open Questions
+    </div>
+    <p style="font-size:0.93rem; color:#5b3a3a;
+              font-family:'Fira Code','Source Code Pro','Courier New',monospace;
+              line-height:1.55;">
+      Summary of practical lessons, recommended design patterns for real-world alignment,
+      and open research challenges for attendees who want to explore the field further.
+    </p>
+  </div>
+</li>
+
+
+    </ol>
+
+  </div>
+
+</section>
+
+
+
+  <!-- ===== Contact ===== -->
+<section id="contact" style="background:#fffafc;">
+  <h2 class="section-title" style="text-align:center; font-size:1.9rem; color:#C1272D; font-family:'Poppins',sans-serif; margin-bottom:1.5rem;">
+    Contact
+  </h2>
+
+  <p style="text-align:center; color:#4b1d26; font-family:'Nunito Sans',sans-serif; font-size:1rem; margin-bottom:1.5rem;">
+
+  </p>
+
+  <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+    <div class="person" style="
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      background:#fff;
+      border-radius:20px;
+      padding:1rem 1.3rem;
+      border:1px solid #f0f0f0;
+      box-shadow:0 2px 8px rgba(0,0,0,0.05);
+      max-width:400px;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+      font-family:'Nunito Sans',sans-serif;">
+      
+      <div class="profile-pic" style="
+        width:60px;
+        height:60px;
+        border-radius:50%;
+        background:#f8d7da;
+        border:2px solid #C1272D;
+        background-image:url('U1.png');
+        background-size:cover;
+        background-position:center;
+        flex-shrink:0;">
+      </div>
+
+      <div class="person-info">
+        <div class="role" style="color:#C1272D; font-size:0.85rem; text-transform:uppercase; font-weight:600; margin-bottom:0.2rem;">
+          Faculty Lead
+        </div>
+        <h4 style="margin:0; color:#2b2b2b; font-family:'Poppins',sans-serif; font-size:1.05rem;">
+          Dr. Usman Naseem
+        </h4>
+        <p style="margin:0; color:#5b3a3a; font-size:0.92rem;">Macquarie University, Australia</p>
+        <p style="margin:0.2rem 0 0; color:#C1272D; font-weight:600; font-size:0.9rem;">
+          📧 usman.naseem@mq.edu.au
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <p style="text-align:center; font-size:0.95rem; color:#5b3a3a; font-family:'Nunito Sans',sans-serif;">
+    <strong>School of Computing, Macquarie University, Sydney, NSW 2113, Australia</strong>
+  </p>
+</section>
+
+   <!-- ===== Footer ===== -->
+<footer style="background:#fff0f1; padding:1.8rem 0; border-top:2px solid #f3c8cb;">
+  <div class="footer-inner" style="
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 1rem;
+    font-family:'Nunito Sans',sans-serif;">
+    
+    <div style="flex:1; min-width:280px; margin-bottom:1rem;">
+      <h3 style="color:#C1272D; font-family:'Poppins',sans-serif; margin-bottom:0.4rem;">
+        SocialNLP Lab
+      </h3>
+      <p style="color:#5b3a3a; font-size:0.95rem; margin:0;">
+       
+      </p>
+    </div>
+
+    <div style="text-align:right; flex:1; min-width:260px;">
+      <p style="color:#4b1d26; font-size:0.9rem; margin:0;">
+        © <span id="year"></span> SocialNLP Lab, Macquarie University. All rights reserved.
+      </p>
+      <p style="margin-top:0.3rem;">
+        <a href="#top" style="text-decoration:none; color:#C1272D; font-weight:600; transition:color 0.3s;">
+          Back to top ↑
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Auto-update footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</footer>
+
+
+  <script>
+    // set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
+</body>
+</html>
 
