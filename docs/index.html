@@ -12,13 +12,12 @@ layout: none
     name="description"
     content="Tutorial on Alignment of Large Language Models with Human Preferences and Values — Wednesday 26 November, 2–5pm AEDT (UTC+11), PNR Learning Studio 310."
   />
-  <style>
+   <style>
     :root {
       --bg: #ffffff;
       --light: #f4f5f7;
       --dark: #0f172a;
       --accent: #2563eb;
-      --accent-red: #C1272D;
       --text: #1f2937;
       --muted: #6b7280;
       --radius: 16px;
@@ -31,7 +30,6 @@ layout: none
       color: var(--text);
       line-height: 1.6;
     }
-
     /* ===== Navbar ===== */
     header {
       position: sticky;
@@ -53,15 +51,14 @@ layout: none
       font-weight: 700;
       letter-spacing: -0.01em;
       display: flex;
-      flex-direction: column;
-    }
-    .brand span.main {
-      font-size: 1rem;
+      gap: 0.5rem;
+      align-items: center;
     }
     .brand span.small {
       font-size: 0.7rem;
       color: var(--muted);
-      line-height: 1.2;
+      display: block;
+      line-height: 1.1;
     }
     nav a {
       margin-left: 1rem;
@@ -73,7 +70,6 @@ layout: none
     nav a:hover {
       color: var(--accent);
     }
-
     /* ===== Hero ===== */
     .hero {
       max-width: 1100px;
@@ -82,38 +78,18 @@ layout: none
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 2.5rem;
-      align-items: flex-start;
+      align-items: center;
     }
-    .hero-left h1 {
+    .hero h1 {
       font-size: clamp(2.2rem, 4vw, 3rem);
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       line-height: 1.1;
     }
-    .hero-left p {
+    .hero p {
       color: var(--muted);
       max-width: 35rem;
-      font-size: 0.95rem;
     }
-    .hero-meta {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-    .hero-meta p {
-      margin: 0.15rem 0;
-    }
-    .tag {
-      display: inline-block;
-      background: rgba(37,99,235,0.08);
-      color: var(--accent);
-      border-radius: 999px;
-      padding: 0.2rem 0.75rem;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      margin-bottom: 0.75rem;
-    }
-    .hero-buttons {
+    .hero .buttons {
       margin-top: 1.5rem;
       display: flex;
       gap: 1rem;
@@ -128,54 +104,32 @@ layout: none
       font-weight: 600;
       text-decoration: none;
       display: inline-block;
-      font-size: 0.9rem;
     }
     .btn.secondary {
       background: #fff;
       border: 1px solid #d1d5db;
       color: var(--text);
     }
-
     .hero-card {
       background: var(--light);
       border: 1px solid #e5e7eb;
       border-radius: 1.2rem;
-      padding: 1.25rem 1.25rem 1rem;
+      padding: 1.25rem 1.25rem 0.25rem;
     }
     .hero-card h3 {
       margin-top: 0;
-      margin-bottom: 0.4rem;
-      font-size: 1rem;
     }
-    .hero-card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-top: 0.2rem;
-    }
-    .detail-label {
-      font-size: 0.75rem;
+    .tag {
+      display: inline-block;
+      background: rgba(37,99,235,0.1);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--muted);
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
     }
-    .detail-value {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-top: 0.15rem;
-      color: var(--text);
-    }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0.75rem;
-      margin-top: 0.75rem;
-    }
-    .presenter-list {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--text);
-    }
-
     /* ===== Sections ===== */
     section {
       max-width: 1100px;
@@ -194,90 +148,81 @@ layout: none
       font-size: 0.8rem;
       font-weight: 400;
     }
-
+    /* ===== Cards ===== */
     .grid {
       display: grid;
       gap: 1.25rem;
     }
-    .grid-2 {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     }
     .card {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: var(--radius);
-      padding: 1.25rem 1.25rem 1.1rem;
-      font-size: 0.9rem;
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    .muted { color: var(--muted); }
+    /* ===== People ===== */
+    .people-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.1rem;
+    }
+    .person {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+    }
+    .person h4 {
+      margin: 0 0 0.25rem;
+    }
+    .role {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       color: var(--muted);
-    }
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.4rem;
-      font-size: 1.05rem;
-      color: var(--text);
-    }
-    .card ul {
-      padding-left: 1.1rem;
-      margin: 0.4rem 0 0;
-    }
-    .card li {
       margin-bottom: 0.25rem;
     }
-
-    /* ===== Outline ===== */
-    .outline-list {
+    /* ===== Publications ===== */
+    .pub-list {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
       margin: 0;
-    }
-    .outline-item {
-      border-bottom: 1px solid #e5e7eb;
-      padding: 0.6rem 0;
       display: grid;
-      grid-template-columns: 0.8fr 2fr;
       gap: 1rem;
-      font-size: 0.9rem;
     }
-    .outline-item:last-child { border-bottom: none; }
-    .outline-label {
-      font-weight: 600;
-      color: var(--text);
+    .pub-item {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
     }
-    .outline-label span.num {
-      display: inline-block;
-      margin-right: 0.45rem;
-      min-width: 1.4rem;
-      text-align: center;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      font-size: 0.75rem;
-      color: var(--accent-red);
-    }
-    .outline-desc {
+    .pub-item .venue {
+      font-size: 0.7rem;
+      text-transform: uppercase;
       color: var(--muted);
     }
-
-    /* ===== Contact / footer ===== */
+    /* ===== Footer ===== */
     footer {
       margin-top: 3rem;
       background: #0f172a;
       color: rgba(255,255,255,0.9);
-      padding: 2rem 1.25rem 2.5rem;
+      padding: 2.5rem 1.25rem 3rem;
     }
     footer .footer-inner {
       max-width: 1100px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      gap: 1.5rem;
+      gap: 2rem;
       flex-wrap: wrap;
-      font-size: 0.9rem;
     }
     footer a {
-      color: rgba(255,255,255,0.8);
+      color: rgba(255,255,255,0.7);
       text-decoration: none;
     }
-
     /* ===== Responsive ===== */
     @media (max-width: 880px) {
       .hero {
@@ -288,9 +233,6 @@ layout: none
       }
       header {
         position: static;
-      }
-      .outline-item {
-        grid-template-columns: 1fr;
       }
     }
   </style>
