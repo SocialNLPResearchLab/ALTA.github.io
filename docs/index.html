@@ -339,79 +339,195 @@ layout: none
 
    <div class="presenter-list">
 
-  <!-- ===== ROW 1: FACULTY LEAD (FULL WIDTH) ===== -->
-  <div class="presenter" style="grid-column: 1 / -1;">
-      <div class="presenter-pic" style="background-image:url('U1.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">Faculty Lead</div>
+  <!-- ===== People ===== -->
+<section id="people" style="background:#fffafc;">
+  <h2 class="section-title" style="text-align:center; font-size:1.9rem; color:#C1272D; font-family:'Poppins',sans-serif; margin-bottom:1.5rem;">
+    People
+  </h2>
+
+  <style>
+    .people-category {
+      text-align:center;
+      font-size:1.2rem;
+      color:#C1272D;
+      font-family:'Poppins',sans-serif;
+      margin:2rem 0 1rem;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+    }
+
+    .people-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem 1rem;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #fff;
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .person:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(193,39,45,0.15);
+    }
+
+    .profile-pic {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #f8d7da;
+      flex-shrink: 0;
+      border: 2px solid #C1272D;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .person-info {
+      flex: 1;
+    }
+
+    .role {
+      color: #C1272D;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .person-info h4 {
+      margin: 0 0 0.1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #2b2b2b;
+      font-size: 1.05rem;
+    }
+
+    .person-info p {
+      color: #5b3a3a;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 0.3rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #C1272D;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .social-link img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+
+    .social-link:hover {
+      color: #a92026;
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- ===== Faculty Lead ===== -->
+  <h3 class="people-category">Faculty Lead</h3>
+  <div style="display:flex; justify-content:center; max-width:800px; margin:0 auto 1rem;">
+    <div class="person" style="max-width:420px; width:100%;">
+      <div class="profile-pic" style="background-image:url('U1.png');"></div>
+      <div class="person-info">
         <h4>Dr. Usman Naseem</h4>
-        <p>Macquarie University</p>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
       </div>
+    </div>
   </div>
 
-  <!-- ===== ROW 2+3: Students (Auto-fit into 3 columns) ===== -->
-
-  <!-- Gautam -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('G.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">PhD Student</div>
+  <!-- ===== HDR @ SocialNLP ===== -->
+  <h3 class="people-category">HDR @ SocialNLP</h3>
+  <div class="people-list">
+    
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('G.png');"></div>
+      <div class="person-info">
         <h4>Gautam Siddharth Kashyap</h4>
-        <p>Macquarie University</p>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
       </div>
-  </div>
+    </div>
 
-  <!-- Kaixuan -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('V.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">PhD Student</div>
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('V.png');"></div>
+      <div class="person-info">
         <h4>Kaixuan Ren (Victor)</h4>
-        <p>Macquarie University</p>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
       </div>
-  </div>
+    </div>
 
-  <!-- Yiran -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('Y.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">MRes Student</div>
-        <h4>Yiran Zhang (Grant)</h4>
-        <p>Macquarie University</p>
-      </div>
-  </div>
-
-  <!-- Utsav -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('UM.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">MRes Student</div>
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('UM.png');"></div>
+      <div class="person-info">
         <h4>Utsav Maskey</h4>
-        <p>Macquarie University</p>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
       </div>
-  </div>
+    </div>
 
-  <!-- Juan -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('A.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">MRes Student</div>
-        <h4>Juan (Ada) Ren</h4>
-        <p>Macquarie University</p>
-      </div>
-  </div>
-
-  <!-- Afrozah -->
-  <div class="presenter">
-      <div class="presenter-pic" style="background-image:url('AN.png');"></div>
-      <div class="presenter-info">
-        <div class="presenter-role">MRes Student</div>
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('AN.png');"></div>
+      <div class="person-info">
         <h4>Afrozah Nadeem</h4>
-        <p>Macquarie University</p>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
       </div>
-  </div>
+    </div>
 
-</div>
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('A.png');"></div>
+      <div class="person-info">
+        <h4>Juan (Ada) Ren</h4>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
+      </div>
+    </div>
+
+    <div class="person">
+      <div class="profile-pic" style="background-image:url('Y.jpeg');"></div>
+      <div class="person-info">
+        <h4>Yiran Zhang (Grant)</h4>
+        <p>Macquarie University, Australia</p>
+        <div class="social-links">
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 
 
